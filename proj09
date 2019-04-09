@@ -1,0 +1,140 @@
+
+from math import log2
+from operator import itemgetter
+from hashlib import md5
+from string import ascii_lowercase, ascii_uppercase, digits, punctuation
+
+
+def open_file(message):
+    '''Put your docstring here'''
+
+    file_name=None
+    while file_name==None:
+        try:
+            file_name=input("Input a file name: ").strip()
+            pointer=open(file_name, newline='')
+        except FileNotFoundError:
+            print("File not found.")
+            file_name=None
+    return pointer 
+            
+def check_characters(password, characters):
+    '''
+    (string,string)
+    
+    Precondition: password and characters parameters are both of type string
+    
+    Function filters through passwords for lowercase letters, uppercase
+    letters, digits, and punctuation. If characters are found in password 
+    string, it returns True. If not, it returns False.
+    '''    
+    
+    for c in characters:
+        if password.find(c) != -1:
+            return True
+    return False
+
+    
+def password_entropy_calculator(password):
+    '''Put your docstring here'''
+    
+    
+    lower_letter = check_characters(password, ascii_lowercase)
+    upper_letter = check_characters(password, ascii_uppercase)
+    digit_char = check_characters(password, digits)
+    special_char = check_characters(password, punctuation)
+    
+    N=0
+    
+    if password == "":
+        return 0
+    elif not lower_letter and not upper_letter and not special_char:
+        N = 10
+    elif not lower_letter and not upper_letter and not digit_char:
+        N = 32
+    elif not lower_letter and not upper_letter:
+        N = 42
+    elif not upper_letter and not digit_char and not special_char:
+        N = 26
+    elif not lower_letter and not digit_char and not special_char:
+        N = 26
+    elif not digit_char and not special_char:
+        N = 52
+    elif not upper_letter and not special_char:
+        N = 36
+    elif not lower_letter and not special_char:
+        N = 36
+    elif not lower_letter and not digit_char:
+        N = 58
+    elif not upper_letter and not digit_char:
+        N = 58
+    elif not upper_letter:
+        N = 68
+    elif not lower_letter:
+        N = 68  
+    elif not special_char:
+        N = 62
+    elif not digit_char:
+        N = 84
+    elif lower_letter and upper_letter and digit_char and special_char:
+        N = 94
+    
+    
+    
+    
+    L = len(password)
+    print(f"L = {L}, N = {N}")
+    entropy = L*log2(N)
+    return round(entropy,2)
+
+def build_password_dictionary(fp):
+    '''Put your docstring here'''
+    
+    pass_dict = {}
+    for line in fp:
+        pass_dict[md5(password.encode()).hexdigest()] = (line, password_entropy_calculator(line))
+    return pass_dict
+
+def cracking(fp,hash_D):
+    '''Put your docstring here'''
+
+    pass
+
+def create_set(fp):  
+    '''Read file and return data as a set'''
+
+    pass
+
+def common_patterns(D,common,names,phrases):
+    '''Put your docstring here'''
+
+    pass
+                
+def main():
+    '''Put your docstring here'''
+    
+    BANNER = """
+       -Password Analysis-
+
+          ____
+         , =, ( _________
+         | ='  (VvvVvV--'
+         |____(
+
+
+    https://security.cse.msu.edu/
+    """
+
+    MENU = '''
+    [ 1 ] Crack MD5 password hashes
+    [ 2 ] Locate common patterns
+    [ 3 ] Calculate entropy of a password
+    [ 4 ] Exit
+
+    [ ? ] Enter choice: '''
+
+
+    pass
+    
+if __name__ == '__main__':
+    main()
